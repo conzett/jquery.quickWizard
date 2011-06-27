@@ -12,7 +12,7 @@
         'disabledClass': 'form-wizard-disabled'
     };
 
-    $.fn.formWizard = function (options, callback) {
+    $.fn.quickWizard = function (options, callback) {
 
         if (options) {
             $.extend(settings, options);
@@ -66,9 +66,12 @@
                     if (next.length) {
                         $(active).toggleClass(settings.activeClass);
                         $(next).toggleClass(settings.activeClass);
+                        
+                        /* Get the current element's position and store it */
+                        active.data('posiiton', active.css('position'));
 
                         /* Set our callback function */
-                        insertedNextCallback = function () { active.css('position', 'static'); };
+                        insertedNextCallback = function () { active.css('position', active.data('posiiton')); };
 
                         /* Call show and hide with the user provided arguments */
                         active.css('position', 'absolute').hide.apply(active, settings.nextArgs);
@@ -98,7 +101,9 @@
                 if (prev.length) {
                     $(active).toggleClass(settings.activeClass);
                     $(prev).toggleClass(settings.activeClass);
-                    insertedNextCallback = function () { prev.css('position', 'static'); };
+                    
+                    prev.data('posiiton', prev.css('position'));
+                    insertedNextCallback = function () { prev.css('position', prev.data('posiiton')); };
                     active.hide.apply(active, settings.prevArgs);
                     prev.css('position', 'absolute').show.apply(prev, settings.nextArgs);
                     $(nextID).show();
