@@ -11,8 +11,8 @@ A plugin that transforms a series of form elements into a simple wizard. Designe
 Demos
 --------
 
-[Basic Demo](http://jsfiddle.net/conzett/xKHeK/embedded/result/)
-[Demo using jQuery UI Effects Core](http://jsfiddle.net/conzett/pVE9R/embedded/result/)
+* [Basic Demo](http://jsfiddle.net/conzett/xKHeK/embedded/result/)
+* [Demo using jQuery UI Effects Core](http://jsfiddle.net/conzett/pVE9R/embedded/result/)
 
 To Do
 --------
