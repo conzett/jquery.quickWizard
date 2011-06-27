@@ -47,10 +47,8 @@
                 settings.nextArgs[settings.nextArgs.length] = function () { insertedNextCallback.call(); }
             }
 
-            container.append(settings.prevButton, settings.nextButton);
-
-            /* Move the submit button after the next button and hide it until we're ready */
-            submitButton.insertAfter(nextID).hide();
+            /* Insert the previous and next buttons after the submit button and hide it until we're ready */
+            $(settings.submit).before(settings.prevButton).before(settings.nextButton).hide();
 
             children.hide();
             root.toggleClass(settings.activeClass).show();
