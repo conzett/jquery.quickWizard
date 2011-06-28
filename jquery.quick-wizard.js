@@ -19,6 +19,14 @@
         }
 
         callback = callback || function () { };
+        
+        function disablePrev(prevObj){
+            if ($(prevObj).is(":button")) {
+                $(prevObj).attr('disabled', 'disabled');
+            } else {
+                $(prevObj).addClass(settings.disabledClass);
+            }
+        }
 
         return this.each(function () {
 
@@ -30,10 +38,10 @@
             var originalNextCallback;
             var root;
             
-            if(settings.root === null){
-                root = $(settings.root);
-            }else{
+            if(settings.root === null){                
                 root = children.first();
+            }else{
+                root = $(settings.root);
             }
 
             /* Check if the last argument is a callback function */
@@ -56,6 +64,11 @@
             var prev = $(settings.prevButton).insertBefore(submitButton);
             var next = $(settings.nextButton).insertBefore(submitButton);
             submitButton.hide();
+            
+            /* If the root element is first disable the previous button */            
+            if(root.is(':first-child')){
+                disablePrev(prev);
+            }
 
             children.hide();
             root.toggleClass(settings.activeClass).show();
@@ -102,7 +115,7 @@
             $(prev).click(function () {
                 var active = $(activeClassSelector);
                 var prevSet = active.prev(settings.element);
-                var beforePrevSet = prev.prev(settings.element);
+                var beforePrevSet = prevSet.prev(settings.element);
                 if (prevSet.length) {
                     $(active).toggleClass(settings.activeClass);
                     $(prevSet).toggleClass(settings.activeClass);
@@ -115,11 +128,7 @@
                     submitButton.hide();
                 }
                 if (beforePrevSet.length <= 0) {
-                    if ($(prev).is(":button")) {
-                        $(prev).attr('disabled', 'disabled');
-                    } else {
-                        $(prev).addClass(settings.disabledClass);
-                    }
+                    disablePrev(prev);
                 }
             });
 
