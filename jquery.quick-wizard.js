@@ -24,7 +24,7 @@
 
             var container = $(this);
             var children = container.children(settings.element);
-            var root = settings.root || children.first();
+            var root = $(settings.root) || children.first();
             var activeClassSelector = '.' + settings.activeClass;
             var submitButton = $('[type = "submit"]');
             var insertedNextCallback;
