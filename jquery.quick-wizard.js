@@ -113,7 +113,7 @@
             });
 
             $(prev).click(function () {
-                var active = $(activeClassSelector);
+                var active = container.find(activeClassSelector);
                 var prevSet = active.prev(settings.element);
                 var beforePrevSet = prevSet.prev(settings.element);
                 if (prevSet.length) {
