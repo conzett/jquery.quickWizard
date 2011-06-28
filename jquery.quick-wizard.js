@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿(function ($) {
+(function ($) {
 
     var settings = {
         'prevButton': '<button id="form-wizard-prev" type="button">Previous</button>',
