@@ -74,7 +74,7 @@
             root.toggleClass(settings.activeClass).show();
 
             $(next).click(function () {
-                var active = $(activeClassSelector);
+                var active = container.find(activeClassSelector);
 
                 /* Check to see if the forms are valid before moving on */
 
@@ -118,8 +118,7 @@
                 var beforePrevSet = prevSet.prev(settings.element);
                 if (prevSet.length) {
                     $(active).toggleClass(settings.activeClass);
-                    $(prevSet).toggleClass(settings.activeClass);
-                    
+                    $(prevSet).toggleClass(settings.activeClass);                    
                     prevSet.data('posiiton', prevSet.css('position'));
                     insertedNextCallback = function () { prevSet.css('position', prevSet.data('posiiton')); };
                     active.hide.apply(active, settings.prevArgs);
