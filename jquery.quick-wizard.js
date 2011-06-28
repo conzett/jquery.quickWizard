@@ -1,7 +1,7 @@
 ﻿(function ($) {
 
     var settings = {
-        'prevButton': '<button id="form-wizard-prev" type="button" disabled="disabled">Previous</button>',
+        'prevButton': '<button id="form-wizard-prev" type="button">Previous</button>',
         'nextButton': '<button id="form-wizard-next" type="button">Next</button>',
         'activeClass': 'form-wizard-active',
         'element': 'fieldset',
@@ -23,12 +23,18 @@
         return this.each(function () {
 
             var container = $(this);
-            var children = container.children(settings.element);
-            var root = $(settings.root) || children.first();
+            var children = container.children(settings.element);            
             var activeClassSelector = '.' + settings.activeClass;
             var submitButton = $('[type = "submit"]');
             var insertedNextCallback;
             var originalNextCallback;
+            var root;
+            
+            if(settings.root === null){
+                root = $(settings.root);
+            }else{
+                root = children.first();
+            }
 
             /* Check if the last argument is a callback function */
             if (typeof (settings.nextArgs[settings.nextArgs.length - 1]) == "function") {
