@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿(function ($) {
 
     var settings = {
@@ -33,7 +34,7 @@
             var container = $(this);
             var children = container.children(settings.element);            
             var activeClassSelector = '.' + settings.activeClass;
-            var submitButton = $('[type = "submit"]');
+            var submitButton = $(settings.submit);
             var insertedNextCallback;
             var originalNextCallback;
             var root;
