@@ -25,8 +25,6 @@
             var container = $(this);
             var children = container.children(settings.element);
             var root = settings.root || children.first();
-            var prevID = '#' + $(settings.prevButton).attr("id");
-            var nextID = '#' + $(settings.nextButton).attr("id");
             var activeClassSelector = '.' + settings.activeClass;
             var submitButton = $('[type = "submit"]');
             var insertedNextCallback;
@@ -48,22 +46,25 @@
             }
 
             /* Insert the previous and next buttons after the submit button and hide it until we're ready */
-            $(settings.submit).before(settings.prevButton).before(settings.nextButton).hide();
+            
+            var prev = $(settings.prevButton).insertBefore(submitButton);
+            var next = $(settings.nextButton).insertBefore(submitButton);
+            submitButton.hide();
 
             children.hide();
             root.toggleClass(settings.activeClass).show();
 
-            $(nextID).click(function () {
+            $(next).click(function () {
                 var active = $(activeClassSelector);
 
                 /* Check to see if the forms are valid before moving on */
 
                 if (active.children(":input").valid()) {
-                    var next = active.next(settings.element);
-                    var afterNext = next.next(settings.element);
-                    if (next.length) {
+                    var nextSet = active.next(settings.element);
+                    var afterNextSet = nextSet.next(settings.element);
+                    if (nextSet.length) {
                         $(active).toggleClass(settings.activeClass);
-                        $(next).toggleClass(settings.activeClass);
+                        $(nextSet).toggleClass(settings.activeClass);
                         
                         /* Get the current element's position and store it */
                         active.data('posiiton', active.css('position'));
@@ -73,45 +74,45 @@
 
                         /* Call show and hide with the user provided arguments */
                         active.css('position', 'absolute').hide.apply(active, settings.nextArgs);
-                        next.show.apply(next, settings.prevArgs);
+                        nextSet.show.apply(nextSet, settings.prevArgs);
 
                         /* If the previous button is a button enable it */
-                        if ($(prevID).is(":button")) {
-                            $(prevID).removeAttr('disabled');
+                        if ($(prev).is(":button")) {
+                            $(prev).removeAttr('disabled');
                         } else {
                             /* If it's anything else, remove the disabled class */
-                            $(prevID).removeClass(settings.disabledClass);
+                            $(prev).removeClass(settings.disabledClass);
                         }
                     }
 
                     /* If there are no more sections, hide the next button and show the submit button */
-                    if (afterNext.length <= 0) {
-                        $(nextID).hide();
+                    if (afterNextSet.length <= 0) {
+                        $(next).hide();
                         submitButton.show();
                     }
                 }
             });
 
-            $(prevID).click(function () {
+            $(prev).click(function () {
                 var active = $(activeClassSelector);
-                var prev = active.prev(settings.element);
-                var beforePrev = prev.prev(settings.element);
-                if (prev.length) {
+                var prevSet = active.prev(settings.element);
+                var beforePrevSet = prev.prev(settings.element);
+                if (prevSet.length) {
                     $(active).toggleClass(settings.activeClass);
-                    $(prev).toggleClass(settings.activeClass);
+                    $(prevSet).toggleClass(settings.activeClass);
                     
-                    prev.data('posiiton', prev.css('position'));
-                    insertedNextCallback = function () { prev.css('position', prev.data('posiiton')); };
+                    prevSet.data('posiiton', prevSet.css('position'));
+                    insertedNextCallback = function () { prevSet.css('position', prevSet.data('posiiton')); };
                     active.hide.apply(active, settings.prevArgs);
-                    prev.css('position', 'absolute').show.apply(prev, settings.nextArgs);
-                    $(nextID).show();
+                    prevSet.css('position', 'absolute').show.apply(prevSet, settings.nextArgs);
+                    $(next).show();
                     submitButton.hide();
                 }
-                if (beforePrev.length <= 0) {
-                    if ($(prevID).is(":button")) {
-                        $(prevID).attr('disabled', 'disabled');
+                if (beforePrevSet.length <= 0) {
+                    if ($(prev).is(":button")) {
+                        $(prev).attr('disabled', 'disabled');
                     } else {
-                        $(prevID).addClass(settings.disabledClass);
+                        $(prev).addClass(settings.disabledClass);
                     }
                 }
             });
