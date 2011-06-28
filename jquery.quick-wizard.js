@@ -33,7 +33,7 @@
             var container = $(this);
             var children = container.children(settings.element);            
             var activeClassSelector = '.' + settings.activeClass;
-            var submitButton = $(settings.submit);
+            var submitButton = container.find(settings.submit);
             var insertedNextCallback;
             var originalNextCallback;
             var root;
