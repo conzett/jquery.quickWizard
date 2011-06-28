@@ -1,18 +1,18 @@
 (function ($) {
 
-    var settings = {
-        'prevButton': '<button id="form-wizard-prev" type="button">Previous</button>',
-        'nextButton': '<button id="form-wizard-next" type="button">Next</button>',
-        'activeClass': 'form-wizard-active',
-        'element': 'fieldset',
-        'submit': '[type = "submit"]',
-        'root': null,
-        'prevArgs': [0],
-        'nextArgs': [0],
-        'disabledClass': 'form-wizard-disabled'
-    };
-
     $.fn.quickWizard = function (options, callback) {
+        
+        var settings = {
+            'prevButton': '<button id="form-wizard-prev" type="button">Previous</button>',
+            'nextButton': '<button id="form-wizard-next" type="button">Next</button>',
+            'activeClass': 'form-wizard-active',
+            'element': 'fieldset',
+            'submit': '[type = "submit"]',
+            'root': null,
+            'prevArgs': [0],
+            'nextArgs': [0],
+            'disabledClass': 'form-wizard-disabled'
+        };
 
         if (options) {
             $.extend(settings, options);
