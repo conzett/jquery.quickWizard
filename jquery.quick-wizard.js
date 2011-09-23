@@ -11,7 +11,8 @@
             'root': null,
             'prevArgs': [0],
             'nextArgs': [0],
-            'disabledClass': 'form-wizard-disabled'
+            'disabledClass': 'form-wizard-disabled',
+            'containerClass' : 'form-wizard-container'
         };
 
         if (options) {
@@ -42,6 +43,10 @@
                 root = children.first();
             }else{
                 root = $(settings.root);
+            }
+            
+            if(settings.containerClass != ""){
+                container.addClass(settings.containerClass);
             }
 
             /* Check if the last argument is a callback function */
