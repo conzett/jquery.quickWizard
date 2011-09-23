@@ -12,7 +12,15 @@
             'prevArgs': [0],
             'nextArgs': [0],
             'disabledClass': 'form-wizard-disabled',
-            'containerClass' : 'form-wizard-container'
+            'containerClass' : 'form-wizard-container',
+            'breadCrumb': true,
+            'breadCrumbElement': 'legend',
+            'breadCrumbListOpen': '<ol class="bread-crumb">',
+            'breadCrumbListClose': '</ol>',
+            'breadCrumbListElementOpen': '<li>',
+            'breadCrumbListElementClose': '</li>',
+            'breadCrumbActiveClass': 'bread-crumb-active',
+            'breadCrumbCompletedClass': 'bread-crumb-completed'
         };
 
         if (options) {
@@ -38,6 +46,7 @@
             var insertedNextCallback;
             var originalNextCallback;
             var root;
+            var breadCrumbList;
             
             if(settings.root === null){                
                 root = children.first();
@@ -45,8 +54,22 @@
                 root = $(settings.root);
             }
             
+            /* Set up container class */
             if(settings.containerClass != ""){
                 container.addClass(settings.containerClass);
+            }
+            
+            /* Set up bread crumb menu */
+            if (settings.breadCrumb) {
+                breadCrumbList = settings.breadCrumbListOpen
+
+                children.find(settings.breadCrumbElement).each(function (index) {
+                    breadCrumbList += settings.breadCrumbListElementOpen + $(this).text() + settings.breadCrumbListElementClose;
+                });
+
+                breadCrumbList += settings.breadCrumbListClose;
+                breadCrumbList = $(breadCrumbList).insertAfter(container);
+                breadCrumbList.children().first().addClass(settings.breadCrumbActiveClass);
             }
 
             /* Check if the last argument is a callback function */
@@ -99,6 +122,11 @@
                         /* Call show and hide with the user provided arguments */
                         active.css('position', 'absolute').hide.apply(active, settings.nextArgs);
                         nextSet.show.apply(nextSet, settings.prevArgs);
+                        
+                        /* If bread crumb menu is used make those changes */
+                        if (settings.breadCrumb) {
+                            breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass).next().addClass(settings.breadCrumbActiveClass);
+                        }
 
                         /* If the previous button is a button enable it */
                         if ($(prev).is(":button")) {
@@ -128,6 +156,9 @@
                     insertedNextCallback = function () { prevSet.css('position', prevSet.data('posiiton')); };
                     active.hide.apply(active, settings.prevArgs);
                     prevSet.css('position', 'absolute').show.apply(prevSet, settings.nextArgs);
+                    if (settings.breadCrumb) {
+                        breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass).prev().addClass(settings.breadCrumbActiveClass);
+                    }
                     $(next).show();
                     submitButton.hide();
                 }
