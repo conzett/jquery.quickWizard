@@ -20,7 +20,8 @@
             'breadCrumbListElementOpen': '<li>',
             'breadCrumbListElementClose': '</li>',
             'breadCrumbActiveClass': 'bread-crumb-active',
-            'breadCrumbCompletedClass': 'bread-crumb-completed'
+            'breadCrumbCompletedClass': 'bread-crumb-completed',
+            'breadCrumbPosition': 'before'
         };
 
         if (options) {
@@ -68,7 +69,11 @@
                 });
 
                 breadCrumbList += settings.breadCrumbListClose;
-                breadCrumbList = $(breadCrumbList).insertAfter(container);
+                if (settings.breadCrumbPosition === 'after') {
+                    breadCrumbList = $(breadCrumbList).insertAfter(container);
+                } else {
+                    breadCrumbList = $(breadCrumbList).insertBefore(container);
+                }
                 breadCrumbList.children().first().addClass(settings.breadCrumbActiveClass);
             }
 
