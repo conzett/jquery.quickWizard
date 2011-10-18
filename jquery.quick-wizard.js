@@ -111,7 +111,7 @@
 
                 /* Check to see if the forms are valid before moving on */
 
-                if (active.children(":input").valid()) {
+                if (active.find(":input").valid()) {
                     var nextSet = active.next(settings.element);
                     var afterNextSet = nextSet.next(settings.element);
                     if (nextSet.length) {
