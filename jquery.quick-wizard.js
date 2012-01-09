@@ -12,7 +12,7 @@
     }
 
     Plugin.prototype.init = function () {
-
+        console.log("initialized");
     };
 
     $.fn[pluginName] = function (options) {
@@ -23,9 +23,9 @@
         });
     };
 
-}(jQuery));
-/*
-(function ($) {
+}(jQuery))
+
+/*(function($) {
 
     $.fn.quickWizard = function (options, callback) {
         
@@ -82,12 +82,12 @@
                 root = $(settings.root);
             }
             
-            /* Set up container class
+
             if(settings.containerClass != ""){
                 container.addClass(settings.containerClass);
             }
             
-            /* Set up bread crumb menu
+
             if (settings.breadCrumb) {
                 breadCrumbList = settings.breadCrumbListOpen
 
@@ -104,28 +104,27 @@
                 breadCrumbList.children().first().addClass(settings.breadCrumbActiveClass);
             }
 
-            /* Check if the last argument is a callback function
+
             if (typeof (settings.nextArgs[settings.nextArgs.length - 1]) == "function") {
 
-                /* If it is store the user provided callback
+
                 originalNextCallback = settings.nextArgs[settings.nextArgs.length - 1];
 
-                /* then replace it with a wrapper function that calls both the user provided function and ours
+
                 settings.nextArgs[settings.nextArgs.length - 1] = function () { insertedNextCallback.call(); originalNextCallback.call(); };
 
             } else {
                 
-                /* If there is no callback function append ours
+
                 settings.nextArgs[settings.nextArgs.length] = function () { insertedNextCallback.call(); }
             }
 
-            /* Insert the previous and next buttons after the submit button and hide it until we're ready
             
             var prev = $(settings.prevButton).insertBefore(submitButton);
             var next = $(settings.nextButton).insertBefore(submitButton);
             submitButton.hide();
             
-            /* If the root element is first disable the previous button           
+         
             if(root.is(':first-child')){
                 disablePrev(prev);
             }
@@ -136,7 +135,7 @@
             $(next).click(function () {
                 var active = container.find(activeClassSelector);
 
-                /* Check to see if the forms are valid before moving on
+
 
                 if (active.find(":input").valid()) {
                     var nextSet = active.next(settings.element);
@@ -145,31 +144,30 @@
                         $(active).toggleClass(settings.activeClass);
                         $(nextSet).toggleClass(settings.activeClass);
                         
-                        /* Get the current element's position and store it
+
                         active.data('posiiton', active.css('position'));
 
-                        /* Set our callback function
+
                         insertedNextCallback = function () { active.css('position', active.data('posiiton')); };
 
-                        /* Call show and hide with the user provided arguments
+
                         active.css('position', 'absolute').hide.apply(active, settings.nextArgs);
                         nextSet.show.apply(nextSet, settings.prevArgs);
                         
-                        /* If bread crumb menu is used make those changes
+
                         if (settings.breadCrumb) {
                             breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass).next().addClass(settings.breadCrumbActiveClass);
                         }
 
-                        /* If the previous button is a button enable it
+
                         if ($(prev).is(":button")) {
                             $(prev).removeAttr('disabled');
                         } else {
-                            /* If it's anything else, remove the disabled class
+
                             $(prev).removeClass(settings.disabledClass);
                         }
                     }
 
-                    /* If there are no more sections, hide the next button and show the submit button
                     if (afterNextSet.length <= 0) {
                         $(next).hide();
                         submitButton.show();
@@ -205,3 +203,4 @@
 
     };
 })(jQuery);
+*/
