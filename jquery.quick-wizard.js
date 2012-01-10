@@ -2,17 +2,40 @@
     'use strict';
     var pluginName = 'quickWizard',
         defaults = {
-            propertyName: "value"
+            prevButton: '<button type="button">Previous</button>',
+            nextButton: '<button type="button">Next</button>'
         };
 
     function Plugin(element, options) {
         this.element = element;
-        this.options = $.extend({}, defaults, options);
+        this.options = $.extend({}, defaults, options);        
+
+        this.prev = function() {
+            console.log("previous");
+        }
+
+        this.next = function() {
+            console.log("next");
+        }
+
         this.init();
     }
 
     Plugin.prototype.init = function () {
-        console.log("initialized");
+
+        var prevButton = $(this.options.prevButton),
+            nextButton = $(this.options.nextButton),
+            plugin = this;
+
+        prevButton.click(function() {
+            plugin.prev();
+        });
+
+        nextButton.click(function() {
+            plugin.next();
+        });
+
+        $(this.element).append(prevButton, nextButton);
     };
 
     $.fn[pluginName] = function (options) {
