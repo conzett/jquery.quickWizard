@@ -10,7 +10,10 @@
         this.element = element;
         this.options = $.extend({}, defaults, options);
         
-        var jqueryElement = $(element); 
+        var jqueryElement = $(element),
+            children;
+
+        children = jqueryElement.children();
 
         this.prev = function() {
             console.log("previous");
@@ -30,6 +33,8 @@
         var prevButton = $(this.options.prevButton),
             nextButton = $(this.options.nextButton),
             plugin = this;
+
+        $(this.element).children(":not(:first-child)").hide();
 
         prevButton.click(function() {
             plugin.prev();            
