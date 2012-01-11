@@ -14,19 +14,24 @@
         var jqueryElement = $(element),
             children,
             index,
-            length;
+            length,
+            showHide;
 
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
 
         this.prev = function() {
-            console.log("previous");
+            $(children[index]).hide();
+            index -= 1;
+            $(children[index]).show();
             jqueryElement.trigger('prev');
         }
 
         this.next = function() {
-            console.log("next");
+            $(children[index]).hide();
+            index += 1;
+            $(children[index]).show();
             jqueryElement.trigger('next');
         }
 
