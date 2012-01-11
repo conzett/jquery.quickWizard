@@ -8,14 +8,18 @@
 
     function Plugin(element, options) {
         this.element = element;
-        this.options = $.extend({}, defaults, options);        
+        this.options = $.extend({}, defaults, options);
+        
+        var jqueryElement = $(element); 
 
         this.prev = function() {
             console.log("previous");
+            jqueryElement.trigger('prev');
         }
 
         this.next = function() {
             console.log("next");
+            jqueryElement.trigger('next');
         }
 
         this.init();
@@ -28,11 +32,11 @@
             plugin = this;
 
         prevButton.click(function() {
-            plugin.prev();
+            plugin.prev();            
         });
 
         nextButton.click(function() {
-            plugin.next();
+            plugin.next();            
         });
 
         $(this.element).append(prevButton, nextButton);

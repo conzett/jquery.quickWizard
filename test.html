@@ -21,7 +21,15 @@
 	<script src="jquery.quick-wizard.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('form').quickWizard();
+			var test = $('form').quickWizard();
+
+			test.bind('prev', function() {
+				console.log("Previous fired");
+			});
+
+			test.bind('next', function() {
+				console.log("Next fired");
+			});
 		});
 	</script>
 </html>
