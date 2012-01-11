@@ -3,7 +3,8 @@
     var pluginName = 'quickWizard',
         defaults = {
             prevButton: '<button type="button">Previous</button>',
-            nextButton: '<button type="button">Next</button>'
+            nextButton: '<button type="button">Next</button>',
+            startChild: ':first'
         };
 
     function Plugin(element, options) {
@@ -11,9 +12,13 @@
         this.options = $.extend({}, defaults, options);
         
         var jqueryElement = $(element),
-            children;
+            children,
+            index,
+            length;
 
         children = jqueryElement.children();
+        index = children.filter(this.options.startChild).index();
+        length = children.length;
 
         this.prev = function() {
             console.log("previous");
@@ -34,7 +39,7 @@
             nextButton = $(this.options.nextButton),
             plugin = this;
 
-        $(this.element).children(":not(:first-child)").hide();
+        $(this.element).children(":not("+this.options.startChild+")").hide();
 
         prevButton.click(function() {
             plugin.prev();            

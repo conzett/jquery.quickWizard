@@ -21,7 +21,9 @@
 	<script src="jquery.quick-wizard.js"></script>
 	<script>
 		$(document).ready(function() {
-			var test = $('form').quickWizard();
+			var test = $('form').quickWizard({
+				startChild : ":nth-child(2)"
+			});
 
 			test.bind('prev', function() {
 				console.log("Previous fired");
