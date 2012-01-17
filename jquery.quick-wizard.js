@@ -10,7 +10,7 @@
     function Plugin(element, options) {
         this.element = element;
         this.options = $.extend({}, defaults, options);
-        
+
         var jqueryElement = $(element),
             children,
             index,
@@ -20,53 +20,71 @@
             nextButton = $(this.options.nextButton),
             buttons = {prev : 'prev', next : 'next'},
             checkDisabled,
-            plugin = this
+            enable,
+            disable;
 
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
 
-        checkDisabled = function() {
-            if(index === 0){
-                prevButton.attr('disabled', 'disabled');
-            }else{
-                prevButton.removeAttr('disabled');
+        disable = function (element) {
+            if (element.is(':button')) {
+                element.attr('disabled', 'disabled');
+            } else {
+                element.attr('aria-disabled', 'true');
             }
-            if(index === length -1){
-                nextButton.attr('disabled', 'disabled');
-            }else{
-                nextButton.removeAttr('disabled');
-            }
-        }
+        };
 
-        showHide = function(button) {
+        enable = function (element) {
+            if (element.is(':button')) {
+                element.removeAttr('disabled');
+            } else {
+                element.attr('aria-disabled', 'false');
+            }
+        };
+
+        checkDisabled = function () {
+            if (index === 0) {
+                disable(prevButton);
+            } else {
+                enable(prevButton);
+            }
+
+            if (index === length - 1) {
+                disable(nextButton);
+            } else {
+                enable(nextButton);
+            }
+        };
+
+        showHide = function (button) {
             $(children[index]).hide();
-            if(button === buttons.prev){
+            if (button === buttons.prev) {
                 index -= 1;
-            }else if(button === buttons.next){
+            } else {
                 index += 1;
             }
             $(children[index]).show();
             jqueryElement.trigger(button);
-        }
+        };
 
-        prevButton.click(function() {
-            if(index > 0) {
+        prevButton.click(function () {
+            if (index > 0) {
                 showHide(buttons.prev);
             }
-            checkDisabled();           
+            checkDisabled();
         });
 
-        nextButton.click(function() {
-            if(index < length -1) {
+        nextButton.click(function () {
+            if (index < length - 1) {
                 showHide(buttons.next);
             }
             checkDisabled();
         });
 
-        $(this.element).children(":not("+this.options.startChild+")").hide();
+        $(this.element).children(":not(" + this.options.startChild + ")").hide();
         $(this.element).append(prevButton, nextButton);
-        checkDisabled(); 
+        checkDisabled();
     }
 
     $.fn[pluginName] = function (options) {
@@ -77,4 +95,4 @@
         });
     };
 
-}(jQuery))
+}(jQuery));
