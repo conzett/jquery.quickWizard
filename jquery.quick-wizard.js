@@ -18,31 +18,57 @@
             showHide,
             prevButton = $(this.options.prevButton),
             nextButton = $(this.options.nextButton),
+            buttons = {prev : 'prev', next : 'next'},
             plugin = this
 
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
 
-        this.prev = function() {
-            if(index > 0) {
-                $(children[index]).hide();
-                index -= 1;
-                $(children[index]).show();
-                jqueryElement.trigger('prev');
+/*
+        testDisabled = function() {
+            if(index === 0){
+                return prevButton
+            }
+            if(index === (length -1)){
+                nextButton.attr('disabled', 'disabled');
+            }else{
+                nextButton.removeAttr('disabled');
             }
         }
 
-        this.next = function() {
-            if(index < (length - 1)) {
-                $(children[index]).hide();
+        disable = function() {
+            if(index === 0){
+                prevButton.attr('disabled', 'disabled');
+            }else{
+                prevButton.removeAttr('disabled');
+            }
+            if(index === (length -1)){
+                nextButton.attr('disabled', 'disabled');
+            }else{
+                nextButton.removeAttr('disabled');
+            }
+        }
+        */
+
+        showHide = function(button) {
+            $(children[index]).hide();
+            if(button === buttons.prev){
+                index -= 1;
+            }else if(button === buttons.next){
                 index += 1;
-                $(children[index]).show();
-                jqueryElement.trigger('next');
-            }          
+            }
+            $(children[index]).show();
+            jqueryElement.trigger(button);
         }
 
-        $(this.element).children(":not("+this.options.startChild+")").hide();
+        this.prev = function() {
+            showHide(buttons.prev);
+        }
+
+        this.next = function() {
+           showHide(buttons.next);     
+        }
 
         prevButton.click(function() {
             plugin.prev();
@@ -52,6 +78,7 @@
             plugin.next();
         });
 
+        $(this.element).children(":not("+this.options.startChild+")").hide();
         $(this.element).append(prevButton, nextButton);
     }
 
