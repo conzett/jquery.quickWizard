@@ -28,7 +28,7 @@
         length = children.length;
 
         disable = function (element) {
-            if (element.is(':button')) {
+            if (element.is(':input')) {
                 element.attr('disabled', 'disabled');
             } else {
                 element.attr('aria-disabled', 'true');
@@ -36,7 +36,7 @@
         };
 
         enable = function (element) {
-            if (element.is(':button')) {
+            if (element.is(':input')) {
                 element.removeAttr('disabled');
             } else {
                 element.attr('aria-disabled', 'false');
