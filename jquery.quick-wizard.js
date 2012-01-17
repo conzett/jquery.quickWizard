@@ -19,37 +19,25 @@
             prevButton = $(this.options.prevButton),
             nextButton = $(this.options.nextButton),
             buttons = {prev : 'prev', next : 'next'},
+            checkDisabled,
             plugin = this
 
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
 
-/*
-        testDisabled = function() {
-            if(index === 0){
-                return prevButton
-            }
-            if(index === (length -1)){
-                nextButton.attr('disabled', 'disabled');
-            }else{
-                nextButton.removeAttr('disabled');
-            }
-        }
-
-        disable = function() {
+        checkDisabled = function() {
             if(index === 0){
                 prevButton.attr('disabled', 'disabled');
             }else{
                 prevButton.removeAttr('disabled');
             }
-            if(index === (length -1)){
+            if(index === length -1){
                 nextButton.attr('disabled', 'disabled');
             }else{
                 nextButton.removeAttr('disabled');
             }
         }
-        */
 
         showHide = function(button) {
             $(children[index]).hide();
@@ -62,24 +50,23 @@
             jqueryElement.trigger(button);
         }
 
-        this.prev = function() {
-            showHide(buttons.prev);
-        }
-
-        this.next = function() {
-           showHide(buttons.next);     
-        }
-
         prevButton.click(function() {
-            plugin.prev();
+            if(index > 0) {
+                showHide(buttons.prev);
+            }
+            checkDisabled();           
         });
 
         nextButton.click(function() {
-            plugin.next();
+            if(index < length -1) {
+                showHide(buttons.next);
+            }
+            checkDisabled();
         });
 
         $(this.element).children(":not("+this.options.startChild+")").hide();
         $(this.element).append(prevButton, nextButton);
+        checkDisabled(); 
     }
 
     $.fn[pluginName] = function (options) {
