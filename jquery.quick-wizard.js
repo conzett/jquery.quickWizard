@@ -15,47 +15,45 @@
             children,
             index,
             length,
-            showHide;
+            showHide,
+            prevButton = $(this.options.prevButton),
+            nextButton = $(this.options.nextButton),
+            plugin = this
 
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
 
         this.prev = function() {
-            $(children[index]).hide();
-            index -= 1;
-            $(children[index]).show();
-            jqueryElement.trigger('prev');
+            if(index > 0) {
+                $(children[index]).hide();
+                index -= 1;
+                $(children[index]).show();
+                jqueryElement.trigger('prev');
+            }
         }
 
         this.next = function() {
-            $(children[index]).hide();
-            index += 1;
-            $(children[index]).show();
-            jqueryElement.trigger('next');
+            if(index < (length - 1)) {
+                $(children[index]).hide();
+                index += 1;
+                $(children[index]).show();
+                jqueryElement.trigger('next');
+            }          
         }
-
-        this.init();
-    }
-
-    Plugin.prototype.init = function () {
-
-        var prevButton = $(this.options.prevButton),
-            nextButton = $(this.options.nextButton),
-            plugin = this;
 
         $(this.element).children(":not("+this.options.startChild+")").hide();
 
         prevButton.click(function() {
-            plugin.prev();            
+            plugin.prev();
         });
 
         nextButton.click(function() {
-            plugin.next();            
+            plugin.next();
         });
 
         $(this.element).append(prevButton, nextButton);
-    };
+    }
 
     $.fn[pluginName] = function (options) {
         return this.each(function () {
