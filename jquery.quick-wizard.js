@@ -21,8 +21,10 @@
             buttons = {prev : 'prev', next : 'next'},
             checkDisabled,
             enable,
-            disable;
+            disable,
+            validation;
 
+        $().valid ? validation = true : validation = false;
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
@@ -69,10 +71,12 @@
         };
 
         prevButton.click(function () {
-            if (index > 0) {
-                showHide(buttons.prev);
-            }
-            checkDisabled();
+            if (!validation || $(children[index]).find(':input').valid()) {
+                if (index > 0) {
+                    showHide(buttons.prev);
+                }
+                checkDisabled();
+            }            
         });
 
         nextButton.click(function () {
