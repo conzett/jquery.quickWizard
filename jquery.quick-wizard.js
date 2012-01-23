@@ -22,9 +22,8 @@
             checkDisabled,
             enable,
             disable,
-            validation;
+            validation = $().valid;
 
-        $().valid ? validation = true : validation = false;
         children = jqueryElement.children();
         index = children.filter(this.options.startChild).index();
         length = children.length;
@@ -76,7 +75,7 @@
                     showHide(buttons.prev);
                 }
                 checkDisabled();
-            }            
+            }
         });
 
         nextButton.click(function () {
