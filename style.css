@@ -1,3 +1,7 @@
 label, input, textarea {
 	display : block;
 }
+
+fieldset {
+	width : 300px;
+}

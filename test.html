@@ -18,11 +18,16 @@
 		</form>
 	</body>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<!--<script src="jquery-ui/ui/jquery.effects.core.js"></script>
+	<script src="jquery-ui/ui/jquery.effects.slide.js"></script>-->
 	<script src="jquery.quick-wizard.js"></script>
 	<script>
 		$(document).ready(function() {
 			var test = $('form').quickWizard({
-				startChild : ":nth-child(2)"
+				startChild : ":nth-child(2)",
+				hideEffect : "explode",
+				showEffect : "explode"
 			});
 
 			test.bind('prev', function() {

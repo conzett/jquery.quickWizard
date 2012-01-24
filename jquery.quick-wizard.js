@@ -4,20 +4,21 @@
         defaults = {
             prevButton: '<button type="button">Previous</button>',
             nextButton: '<button type="button">Next</button>',
-            startChild: ':first'
+            startChild: ':first',
+            hideEffect: 'slide',
+            showEffect: 'slide'
         };
 
     function Plugin(element, options) {
-        this.element = element;
-        this.options = $.extend({}, defaults, options);
+        options = $.extend({}, defaults, options);
 
         var jqueryElement = $(element),
             children,
             index,
             length,
             showHide,
-            prevButton = $(this.options.prevButton),
-            nextButton = $(this.options.nextButton),
+            prevButton = $(options.prevButton),
+            nextButton = $(options.nextButton),
             buttons = {prev : 'prev', next : 'next'},
             checkDisabled,
             enable,
@@ -25,8 +26,10 @@
             validation = $().valid;
 
         children = jqueryElement.children();
-        index = children.filter(this.options.startChild).index();
+        index = children.filter(options.startChild).index();
         length = children.length;
+        options.hideEffect = (jQuery.effects) ? options.hideEffect : '';
+        options.showEffect = (jQuery.effects) ? options.showEffect : '';
 
         disable = function (element) {
             if (element.is(':input')) {
@@ -59,13 +62,13 @@
         };
 
         showHide = function (button) {
-            $(children[index]).hide();
+            $(children[index]).hide(options.hideEffect);
             if (button === buttons.prev) {
                 index -= 1;
             } else {
                 index += 1;
             }
-            $(children[index]).show();
+            $(children[index]).show(options.showEffect);
             jqueryElement.trigger(button);
         };
 
@@ -85,8 +88,8 @@
             checkDisabled();
         });
 
-        $(this.element).children(":not(" + this.options.startChild + ")").hide();
-        $(this.element).append(prevButton, nextButton);
+        $(element).children(":not(" + options.startChild + ")").hide();
+        $(element).append(prevButton, nextButton);
         checkDisabled();
     }
 
