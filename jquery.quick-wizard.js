@@ -5,8 +5,10 @@
             prevButton: '<button type="button">Previous</button>',
             nextButton: '<button type="button">Next</button>',
             startChild: ':first',
-            hideEffect: 'slide',
-            showEffect: 'slide'
+            nextShow: null,
+            nextHide: null,
+            prevShow: null,
+            prevHide: null
         };
 
     function Plugin(element, options) {
@@ -28,8 +30,23 @@
         children = jqueryElement.children();
         index = children.filter(options.startChild).index();
         length = children.length;
-        options.hideEffect = (jQuery.effects) ? options.hideEffect : '';
-        options.showEffect = (jQuery.effects) ? options.showEffect : '';
+        options.nextShow = (jQuery.effects) && !options.nextShow ? ["slide", { direction: "right"}, 500] : '';
+        options.nextHide = (jQuery.effects) && !options.nextHide ? ["slide", { direction: "left"}, 500] : '';
+        options.prevShow = (jQuery.effects) && !options.prevShow ? ["slide", { direction: "left"}, 500] : '';
+        options.prevHide = (jQuery.effects) && !options.prevHide ? ["slide", { direction: "right"}, 500] : '';
+
+        showHide = function (button, showEffect, hideEffect) {
+            $.fn.hide.apply($(children[index]), hideEffect);
+            //$(children[index]).hide().apply(this, hideEffect);
+            if (button === buttons.prev) {
+                index -= 1;
+            } else {
+                index += 1;
+            }
+            $.fn.show.apply($(children[index]), showEffect);
+            //$(children[index]).show().apply(this, showEffect);
+            jqueryElement.trigger(button);
+        };
 
         disable = function (element) {
             if (element.is(':input')) {
@@ -61,21 +78,10 @@
             }
         };
 
-        showHide = function (button) {
-            $(children[index]).hide(options.hideEffect);
-            if (button === buttons.prev) {
-                index -= 1;
-            } else {
-                index += 1;
-            }
-            $(children[index]).show(options.showEffect);
-            jqueryElement.trigger(button);
-        };
-
         prevButton.click(function () {
             if (!validation || $(children[index]).find(':input').valid()) {
                 if (index > 0) {
-                    showHide(buttons.prev);
+                    showHide(buttons.prev, options.prevShow, options.prevHide);
                 }
                 checkDisabled();
             }
@@ -83,7 +89,7 @@
 
         nextButton.click(function () {
             if (index < length - 1) {
-                showHide(buttons.next);
+                showHide(buttons.next, options.nextShow, options.nextHide);
             }
             checkDisabled();
         });
