@@ -37,14 +37,8 @@
 
         showHide = function (button, showEffect, hideEffect) {
             $.fn.hide.apply($(children[index]), hideEffect);
-            //$(children[index]).hide().apply(this, hideEffect);
-            if (button === buttons.prev) {
-                index -= 1;
-            } else {
-                index += 1;
-            }
+            index = (button === buttons.prev) ? index - 1 : index + 1;
             $.fn.show.apply($(children[index]), showEffect);
-            //$(children[index]).show().apply(this, showEffect);
             jqueryElement.trigger(button);
         };
 
