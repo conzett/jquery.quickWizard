@@ -8,7 +8,8 @@
             nextShow: null,
             nextHide: null,
             prevShow: null,
-            prevHide: null
+            prevHide: null,
+            buttonContainer: null
         };
 
     function Plugin(element, options) {
@@ -30,10 +31,11 @@
         children = jqueryElement.children();
         index = children.filter(options.startChild).index();
         length = children.length;
-        options.nextShow = (jQuery.effects) && !options.nextShow ? ["slide", { direction: "right"}, 500] : '';
-        options.nextHide = (jQuery.effects) && !options.nextHide ? ["slide", { direction: "left"}, 500] : '';
-        options.prevShow = (jQuery.effects) && !options.prevShow ? ["slide", { direction: "left"}, 500] : '';
-        options.prevHide = (jQuery.effects) && !options.prevHide ? ["slide", { direction: "right"}, 500] : '';
+        options.nextShow = jQuery.effects && !options.nextShow ? ["slide", { direction: "right"}, 500] : '';
+        options.nextHide = jQuery.effects && !options.nextHide ? ["slide", { direction: "left"}, 500] : '';
+        options.prevShow = jQuery.effects && !options.prevShow ? ["slide", { direction: "left"}, 500] : '';
+        options.prevHide = jQuery.effects && !options.prevHide ? ["slide", { direction: "right"}, 500] : '';
+        options.buttonContainer = options.buttonContainer || element;
 
         showHide = function (button, showEffect, hideEffect) {
             $.fn.hide.apply($(children[index]), hideEffect);
@@ -89,7 +91,7 @@
         });
 
         $(element).children(":not(" + options.startChild + ")").hide();
-        $(element).append(prevButton, nextButton);
+        $(options.buttonContainer).append(prevButton, nextButton);
         checkDisabled();
     }
 
