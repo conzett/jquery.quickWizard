@@ -34,10 +34,10 @@
         index = children.filter(options.startChild).index();
         length = children.length;
 
-        options.nextShow = (jQuery.effects && !options.nextShow) ? ["slide", { direction: "right"}, 500] : options.nextShow;
-        options.nextHide = (jQuery.effects && !options.nextHide) ? ["slide", { direction: "left"}, 500] : options.nextHide;
-        options.prevShow = (jQuery.effects && !options.prevShow) ? ["slide", { direction: "left"}, 500] : options.prevShow;
-        options.prevHide = (jQuery.effects && !options.prevHide) ? ["slide", { direction: "right"}, 500] : options.prevHide;
+        options.nextShow = (jQuery.effects && !options.nextShow) ? ["slide", { direction: "right"}, 300] : options.nextShow;
+        options.nextHide = (jQuery.effects && !options.nextHide) ? ["slide", { direction: "left"}, 300] : options.nextHide;
+        options.prevShow = (jQuery.effects && !options.prevShow) ? ["slide", { direction: "left"}, 300] : options.prevShow;
+        options.prevHide = (jQuery.effects && !options.prevHide) ? ["slide", { direction: "right"}, 300] : options.prevHide;
 
         options.buttonAppend = options.buttonAppend || element;
 
@@ -50,9 +50,9 @@
             childToShow = $(children[index]);
 
             if (button === buttons.prev) {
-               childToShow.css('position', 'absolute');
+                childToShow.css('position', 'absolute');
             } else {
-               childToHide.css('position', 'absolute'); 
+                childToHide.css('position', 'absolute');
             }
 
             $.fn.hide.apply(childToHide, hideArgs);

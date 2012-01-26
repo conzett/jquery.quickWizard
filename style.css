@@ -2,10 +2,10 @@ label, input, textarea {
 	display : block;
 }
 
-form {
-	background-color : yellow;
+fieldset, #qw-buttons {
+	width : 300px;
 }
 
 fieldset {
-	width : 300px;
+	background-color : white;
 }
