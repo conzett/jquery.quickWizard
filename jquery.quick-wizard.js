@@ -9,7 +9,8 @@
             nextHide: null,
             prevShow: null,
             prevHide: null,
-            buttonContainer: null
+            buttonAppend: null,
+            buttonContainer: '<div id="qw-buttons"></div>'
         };
 
     function Plugin(element, options) {
@@ -22,6 +23,7 @@
             showHide,
             prevButton = $(options.prevButton),
             nextButton = $(options.nextButton),
+            buttonContainer = $(options.buttonContainer),
             buttons = {prev : 'prev', next : 'next'},
             checkDisabled,
             enable,
@@ -37,7 +39,7 @@
         options.prevShow = (jQuery.effects && !options.prevShow) ? ["slide", { direction: "left"}, 500] : options.prevShow;
         options.prevHide = (jQuery.effects && !options.prevHide) ? ["slide", { direction: "right"}, 500] : options.prevHide;
 
-        options.buttonContainer = options.buttonContainer || element;
+        options.buttonAppend = options.buttonAppend || element;
 
         showHide = function (button, showArgs, hideArgs) {
             var childToHide,
@@ -47,15 +49,18 @@
             index = (button === buttons.prev) ? index - 1 : index + 1;
             childToShow = $(children[index]);
 
+            if (button === buttons.prev) {
+               childToShow.css('position', 'absolute');
+            } else {
+               childToHide.css('position', 'absolute'); 
+            }
+
             $.fn.hide.apply(childToHide, hideArgs);
             $.fn.show.apply(childToShow, showArgs);
 
-            childToShow.promise().done(function () {
-                console.log("show fired from plugin");
-            });
-
-            childToHide.promise().done(function () {
-                console.log("hide fired from plugin");
+            $.when(childToShow.promise(), childToHide.promise()).done(function () {
+                childToHide.css('position', 'static');
+                childToShow.css('position', 'static');
             });
 
             jqueryElement.trigger(button);
@@ -108,7 +113,8 @@
         });
 
         $(element).children(":not(" + options.startChild + ")").hide();
-        $(options.buttonContainer).append(prevButton, nextButton);
+        buttonContainer.append(prevButton, nextButton);
+        $(options.buttonAppend).append(buttonContainer);
         checkDisabled();
     }
 

@@ -3,5 +3,9 @@ label, input, textarea {
 }
 
 form {
+	background-color : yellow;
+}
+
+fieldset {
 	width : 300px;
 }
