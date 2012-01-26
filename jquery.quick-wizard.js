@@ -31,16 +31,33 @@
         children = jqueryElement.children();
         index = children.filter(options.startChild).index();
         length = children.length;
-        options.nextShow = jQuery.effects && !options.nextShow ? ["slide", { direction: "right"}, 500] : '';
-        options.nextHide = jQuery.effects && !options.nextHide ? ["slide", { direction: "left"}, 500] : '';
-        options.prevShow = jQuery.effects && !options.prevShow ? ["slide", { direction: "left"}, 500] : '';
-        options.prevHide = jQuery.effects && !options.prevHide ? ["slide", { direction: "right"}, 500] : '';
+
+        options.nextShow = (jQuery.effects && !options.nextShow) ? ["slide", { direction: "right"}, 500] : options.nextShow;
+        options.nextHide = (jQuery.effects && !options.nextHide) ? ["slide", { direction: "left"}, 500] : options.nextHide;
+        options.prevShow = (jQuery.effects && !options.prevShow) ? ["slide", { direction: "left"}, 500] : options.prevShow;
+        options.prevHide = (jQuery.effects && !options.prevHide) ? ["slide", { direction: "right"}, 500] : options.prevHide;
+
         options.buttonContainer = options.buttonContainer || element;
 
-        showHide = function (button, showEffect, hideEffect) {
-            $.fn.hide.apply($(children[index]), hideEffect);
+        showHide = function (button, showArgs, hideArgs) {
+            var childToHide,
+                childToShow;
+
+            childToHide = $(children[index]);
             index = (button === buttons.prev) ? index - 1 : index + 1;
-            $.fn.show.apply($(children[index]), showEffect);
+            childToShow = $(children[index]);
+
+            $.fn.hide.apply(childToHide, hideArgs);
+            $.fn.show.apply(childToShow, showArgs);
+
+            childToShow.promise().done(function () {
+                console.log("show fired from plugin");
+            });
+
+            childToHide.promise().done(function () {
+                console.log("hide fired from plugin");
+            });
+
             jqueryElement.trigger(button);
         };
 
