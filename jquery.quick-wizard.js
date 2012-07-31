@@ -15,13 +15,15 @@
             'containerClass' : 'form-wizard-container',
             'breadCrumb': true,
             'breadCrumbElement': 'legend',
-            'breadCrumbListOpen': '<ol class="bread-crumb">',
+            'breadCrumbListOpen': '<ol>',
             'breadCrumbListClose': '</ol>',
+			'breadCrumbListClass': 'bread-crumb',
             'breadCrumbListElementOpen': '<li>',
             'breadCrumbListElementClose': '</li>',
             'breadCrumbActiveClass': 'bread-crumb-active',
             'breadCrumbCompletedClass': 'bread-crumb-completed',
-            'breadCrumbPosition': 'before'
+            'breadCrumbPosition': 'before',
+			'clickableBreadCrumbs': false
         };
 
         if (options) {
@@ -62,7 +64,7 @@
             
             /* Set up bread crumb menu */
             if (settings.breadCrumb) {
-                breadCrumbList = settings.breadCrumbListOpen
+                breadCrumbList = settings.breadCrumbListOpen;
 
                 children.find(settings.breadCrumbElement).each(function (index) {
                     breadCrumbList += settings.breadCrumbListElementOpen + $(this).text() + settings.breadCrumbListElementClose;
@@ -75,6 +77,8 @@
                     breadCrumbList = $(breadCrumbList).insertBefore(container);
                 }
                 breadCrumbList.children().first().addClass(settings.breadCrumbActiveClass);
+				breadCrumbList.addClass(settings.breadCrumbListClass);
+
             }
 
             /* Check if the last argument is a callback function */
@@ -171,7 +175,49 @@
                     disablePrev(prev);
                 }
             });
+			
+			if(settings.breadCrumb && settings.clickableBreadCrumbs){
+				$('.' + settings.breadCrumbListClass).children().click(function(){
+					var active = container.find(activeClassSelector);
+					var current = $(settings.element).eq($(this).index());
+					
+					var prevSet = current.prev(settings.element);
+					var nextSet = current.next(settings.element);
 
+					$(active).toggleClass(settings.activeClass);
+					current.toggleClass(settings.activeClass);
+					
+					
+					/* Get the current element's position and store it */
+					active.data('posiiton', active.css('position'));	
+					
+					/* Set our callback function */
+					insertedNextCallback = function () { active.css('position', active.data('posiiton')); };	
+
+					/* Call show and hide with the user provided arguments */
+					active.css('position', 'absolute').hide.apply(active, settings.nextArgs);
+					current.parents().show.apply(current, settings.prevArgs);	
+					
+					breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass);
+					$(this).addClass(settings.breadCrumbActiveClass);
+					
+					if ($(prev).is(":button")) {
+						$(prev).removeAttr('disabled');
+					} else {
+						/* If it's anything else, remove the disabled class */
+						$(prev).removeClass(settings.disabledClass);
+					}					
+					
+					if (prevSet.length <= 0) {
+						disablePrev(prev);
+					}
+					
+                    if (nextSet.length <= 0) {
+						$(next).hide();
+                        submitButton.show();
+                    }					
+				});
+			}
             callback.call(this);
 
         });
