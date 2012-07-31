@@ -12,7 +12,7 @@ Demos
 --------
 
 * [Basic Demo](http://jsfiddle.net/conzett/xKHeK/embedded/result/)
-* [Basic Demo](http://jsfiddle.net/lscott3/s3UUb/3/embedded/result/)
+* [Basic Demo Using Clickable Breadcrumbs](http://jsfiddle.net/lscott3/s3UUb/3/embedded/result/)
 * [Demo using jQuery UI Effects Core](http://jsfiddle.net/conzett/pVE9R/embedded/result/)
 * [Custom Navigation Demo](http://jsfiddle.net/conzett/FKD4C/embedded/result/)
 * [Transistion Effects Using Easing Plugin](http://jsfiddle.net/conzett/XeAGE/embedded/result/)
