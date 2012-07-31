@@ -201,6 +201,11 @@
 					breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass);
 					$(this).addClass(settings.breadCrumbActiveClass);
 					
+					if(prevSet.length){
+					    $(next).show();
+						submitButton.hide();
+					}
+					
 					if ($(prev).is(":button")) {
 						$(prev).removeAttr('disabled');
 					} else {
