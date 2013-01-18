@@ -29,8 +29,8 @@
   ],
   "bugs": "https://github.com/conzett/jquery.quickWizard/issues",
   "homepage": "https://github.com/conzett/jquery.quickWizard",
-  "docs": "https://github.com/conzett/jquery.quickWizard",
-  "download": "https://github.com/conzett/jquery.quickWizard",
+  "docs": "https://github.com/conzett/jquery.quickWizard/blob/master/README.md",
+  "download": "https://github.com/conzett/jquery.quickWizard/archive/0.1.0.zip",
   "dependencies": {
     "jquery": ">=1.5"
   }
