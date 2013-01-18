@@ -8,7 +8,7 @@
     "ui",
     "animation"
   ],
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": {
       "name": "Graham Conzett",
       "email": "conzett@gmail.com",
@@ -24,14 +24,14 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/conzett/jquery.quickWizard/blob/0.1.0/LICENSE.txt"
+      "url": "https://github.com/conzett/jquery.quickWizard/blob/0.1.2/LICENSE.txt"
     }
   ],
   "bugs": "https://github.com/conzett/jquery.quickWizard/issues",
   "homepage": "https://github.com/conzett/jquery.quickWizard",
-  "docs": "https://github.com/conzett/jquery.quickWizard/blob/master/README.md",
-  "download": "https://github.com/conzett/jquery.quickWizard/archive/0.1.0.zip",
+  "docs": "https://github.com/conzett/jquery.quickWizard/blob/0.1.2/README.md",
+  "download": "https://github.com/conzett/jquery.quickWizard/archive/0.1.2.zip",
   "dependencies": {
-    "jquery": ">=1.5"
+    "jquery": ">=1.6"
   }
 }
