@@ -10,8 +10,9 @@
   ],
   "version": "0.1.0",
   "author": {
-    "name": "Graham Conzett",
-    "url": "https://github.com/conzett/jquery.quickWizard/blob/master/AUTHORS.txt"
+      "name": "Graham Conzett",
+      "email": "conzett@gmail.com",
+      "url": "http://grahamconzett.com"
   },
   "maintainers": [
     {
