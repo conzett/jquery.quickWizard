@@ -1,0 +1,36 @@
+{
+  "name": "quickWizard",
+  "title": "jQuery quickWizard",
+  "description": "A plugin that transforms a series of form elements into a simple wizard. Designed to work with the jQuery Validation plugin and the jQuery UI effects core and jQuery easing plugins for transitions.",
+  "keywords": [
+    "form",
+    "wizard",
+    "ui",
+    "animation"
+  ],
+  "version": "0.1.0",
+  "author": {
+    "name": "Graham Conzett",
+    "url": "https://github.com/conzett/jquery.quickWizard/blob/master/AUTHORS.txt"
+  },
+  "maintainers": [
+    {
+      "name": "Graham Conzett",
+      "email": "conzett@gmail.com",
+      "url": "http://grahamconzett.com"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/conzett/jquery.quickWizard/blob/0.1.0/LICENSE.txt"
+    }
+  ],
+  "bugs": "https://github.com/conzett/jquery.quickWizard/issues",
+  "homepage": "https://github.com/conzett/jquery.quickWizard",
+  "docs": "https://github.com/conzett/jquery.quickWizard",
+  "download": "https://github.com/conzett/jquery.quickWizard",
+  "dependencies": {
+    "jquery": ">=1.5"
+  }
+}
