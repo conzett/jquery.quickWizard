@@ -1,7 +1,7 @@
 jQuery QuickWizard
 ===================
 
-Copyright (C) 2011 Graham Conzett
+Copyright (C) 2013 Graham Conzett
 
 Overview
 --------
