@@ -134,7 +134,7 @@
                         
                         /* If bread crumb menu is used make those changes */
                         if (settings.breadCrumb) {
-                            breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass).next().addClass(settings.breadCrumbActiveClass);
+                            breadCrumbList.find('.' + settings.breadCrumbActiveClass).removeClass(settings.breadCrumbActiveClass).addClass(settings.breadCrumbCompletedClass).next().addClass(settings.breadCrumbActiveClass);
                         }
 
                         /* If the previous button is a button enable it */
