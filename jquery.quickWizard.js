@@ -23,6 +23,7 @@
         breadCrumbCompletedClass: 'bread-crumb-completed',
         breadCrumbPosition: 'before',
         clickableBreadCrumbs: false,
+        validateForm: true,
 
         // Callbacks
         onWizardLoad : function () { return true; },
@@ -145,139 +146,78 @@
 
             appendControls();
 
+            // On live
+            //$(document).on('click touchend', '[data-wizard-goto]',el.goTo);
+
+            $(el).on('keyup keypress', disableEnterKey);
+
             // onSliderLoad callback
-            wizard.settings.onWizardLoad.call(el, wizard.settings.activeClass);
+            wizard.settings.onWizardLoad.call(this, el, wizard.settings.prevButton, wizard.settings.nextButton);
+
+        };
+
+        var disableEnterKey = function (e) {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) { 
+            e.preventDefault();
+            return false;
+          }
         };
 
         var appendControls = function () {
 
             /* Insert the previous and next buttons after the submit button and hide it until we're ready */
-            if ( wizard.container.find('.form-wizard-prev').length ) {
-                wizard.settings.prevButton = '.form-wizard-prev';
+            if ( wizard.container.find('[data-wizard-prev]').length ) {
+                wizard.settings.prevButton = '[data-wizard-prev]';
                 wizard.controls.prev = $(wizard.settings.prevButton);
             } else {
-                wizard.controls.prev = $(wizard.settings.prevButton).insertBefore(wizard.settings.wizard.submitButton);
+                wizard.controls.prev = $(wizard.settings.prevButton).insertBefore(wizard.settings.submitButton);
             }
 
-
-            if ( wizard.container.find('.form-wizard-next').length ) {
-                wizard.settings.nextButton = '.form-wizard-next';
+            if ( wizard.container.find('[data-wizard-next]').length ) {
+                wizard.settings.nextButton = '[data-wizard-next]';
                 wizard.controls.next = $(wizard.settings.nextButton);
             } else {
-                wizard.controls.next = $(wizard.settings.nextButton).insertBefore(wizard.settings.wizard.submitButton);
+                wizard.controls.next = $(wizard.settings.nextButton).insertBefore(wizard.settings.submitButton);
             }
-
 
             /* If the root element is first disable the previous button */            
             if(wizard.root.is(':first-child')){
-                wizard.controls.prev.removeClass('visible')
-                                    .addClass('hidden');
+                wizard.controls.prev.addClass('hidden');
             } 
 
             // bind click actions to the controls
-            wizard.controls.next.on('click touchend', clickNextBind); 
-            wizard.controls.prev.on('click touchend', clickPrevBind);
-
+            if (wizard.controls.next.data('wizard-next') === 'on') {
+                wizard.controls.next.not('.'+wizard.settings.disabledClass).on('click touchend', clickNextBind); 
+            }
+            if (wizard.controls.next.data('wizard-prev') === 'on') {
+                wizard.controls.prev.not('.'+wizard.settings.disabledClass).on('click touchend', clickPrevBind);                
+            }
         };
 
         var clickPrevBind = function (e) {
             e.preventDefault;
-            
-            if ( $(this).hasClass('stop-event') ) return;
-
-            var active = $(el).find(wizard.activeClassSelector),
-                prevSet = active.prev(wizard.settings.element),
-                beforePrevSet = prevSet.prev(wizard.settings.element);
-
-            if (prevSet.length) {
-                $(active).toggleClass(wizard.settings.activeClass);
-                $(prevSet).toggleClass(wizard.settings.activeClass);                    
-                prevSet.data('posiiton', prevSet.css('position'));
-                insertedNextCallback = function () { prevSet.css('position', prevSet.data('posiiton')); };
-                active.hide.apply(active, wizard.settings.prevArgs);
-                prevSet.css('position', 'absolute').show.apply(prevSet, wizard.settings.nextArgs);
-                if (wizard.settings.breadCrumb) {
-                    breadCrumbList.find('.' + wizard.settings.breadCrumbActiveClass).removeClass(wizard.settings.breadCrumbActiveClass).prev().addClass(wizard.settings.breadCrumbActiveClass);
-                }
-
-                wizard.controls.next.removeClass('hidden');
-                wizard.submitButton.addClass('hidden');
-            }
-
-            if (beforePrevSet.length <= 0) {
-                $(this).addClass('hidden');
-            }
-
-            wizard.settings.onWizardPrev.call(el, beforePrevSet, prevSet);
+            el.goToPrevStep();
 
         };
 
         var clickNextBind = function (e) {
             e.preventDefault();
-
-            if ( $(this).hasClass('stop-event') ) return;
-
-            var active = $(el).find(wizard.activeClassSelector);
-
-            /* Check to see if the forms are valid before moving on */
-
-            if (active.find(":input").not('.form-wizard-next, form-wizard-prev').valid()) {
-
-                var nextSet = active.next(wizard.settings.element);
-                var afterNextSet = nextSet.next(wizard.settings.element);
-                
-                if (nextSet.length) {
-                    $(active).toggleClass(wizard.settings.activeClass);
-                    $(nextSet).toggleClass(wizard.settings.activeClass);
-                    
-                    /* Get the current element's position and store it */
-                    active.data('posiiton', active.css('position'));
-
-                    /* Set our callback function */
-                    insertedNextCallback = function () { active.css('position', active.data('posiiton')); };
-
-                    /* Call show and hide with the user provided arguments */
-                    active.css('position', 'absolute').hide.apply(active, wizard.settings.nextArgs);
-                    nextSet.show.apply(nextSet, wizard.settings.prevArgs);
-                    
-                    /* If bread crumb menu is used make those changes */
-                    if (wizard.settings.breadCrumb) {
-                        breadCrumbList.find('.' + wizard.settings.breadCrumbActiveClass).removeClass(wizard.settings.breadCrumbActiveClass).next().addClass(wizard.settings.breadCrumbActiveClass);
-                    }
-
-                    /* If the previous button is a button enable it */
-                    if ( wizard.controls.prev.is(':hidden') ) {
-                         wizard.controls.prev.removeClass('hidden');
-                    }
-
-                }
-
-                /* If there are no more sections, hide the next button and show the submit button */
-                if (afterNextSet.length <= 0) {
-                    $(this).addClass('hidden');
-                    wizard.submitButton.removeClass('hidden');
-                }
-
-                wizard.settings.onWizardNext.call(el, nextSet, afterNextSet);
-            }
+            el.goToNextStep();
         };
 
-        /**
-         * ==============================================
-         * = PUBLIC FUNCTIONS
-         * ==============================================
-         */
+        var goTo = function (index, direction) {
+           
+            var active = $(el).find(wizard.activeClassSelector),
+                current = $(wizard.settings.element).eq(index),
+                prevSet = current.prev(wizard.settings.element),
+                nextSet = current.next(wizard.settings.element);
 
-        el.goTo = function (step) {
-            var active = $(el).find(wizard.activeClassSelector);
+            if ( active.index() === index || index < 0 ) return;
 
-            step = step - 1;
-
-            if ( active.index() === step || 0 > step ) return;
-
-            var current = $(wizard.settings.element).eq(step);
-            var prevSet = current.prev(wizard.settings.element);
-            var nextSet = current.next(wizard.settings.element);
+            if (direction === 'next' && wizard.settings.validateForm && !active.find(":input[required]").not('.ignore').valid() ) {
+                return;
+            }
 
             if ( current.length ) {
                 $(active).toggleClass(wizard.settings.activeClass);
@@ -294,10 +234,9 @@
                 current.parents().show.apply(current, wizard.settings.prevArgs);
 
                 breadCrumbList.find('.' + wizard.settings.breadCrumbActiveClass).removeClass(wizard.settings.breadCrumbActiveClass);
-                breadCrumbList.find('> *').children().eq(step).addClass(wizard.settings.breadCrumbActiveClass);
+                breadCrumbList.find('> *').children().eq(index).addClass(wizard.settings.breadCrumbActiveClass);
                 
             }
-            
 
             if(prevSet.length){
                 wizard.controls.next.removeClass('hidden');
@@ -313,8 +252,48 @@
             if (nextSet.length <= 0) {
                 wizard.controls.next.addClass('hidden');
                 wizard.submitButton.removeClass('hidden');
-            }  
+            } else {
+                wizard.controls.next.removeClass('hidden');
+                wizard.submitButton.addClass('hidden');
+            }
 
+            if (direction === 'next') {
+                wizard.settings.onWizardNext.call(this, el, active, current);
+            } else if (direction === 'prev') {
+                wizard.settings.onWizardPrev.call(this, el, active, current);
+            } 
+
+        };
+
+
+        /**
+         * ==============================================
+         * = PUBLIC FUNCTIONS
+         * ==============================================
+         */
+
+
+        el.goTo = function (index) {
+            var index = parseInt(index) - 1;
+            goTo(index);
+        };
+
+        el.goToNextStep = function () {
+            var active = $(el).find(wizard.activeClassSelector),
+                next = active.next(wizard.settings.element),
+                index = parseInt(next.index());
+
+            if (active.is(':last-child')) { return; }
+            goTo(index, 'next');
+        };
+
+        el.goToPrevStep = function () {
+            var active = $(el).find(wizard.activeClassSelector),
+                prev   = active.prev(wizard.settings.element),
+                index  = parseInt(prev.index());
+
+            if (active.is(':first-child')) { return; }
+            goTo(index, 'prev');
         };
 
         init();
